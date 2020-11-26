@@ -1,0 +1,36 @@
+server.port: 8081
+
+spring:
+  application.name: myproject
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.0.64:5432/db_oeasy?currentSchema=db_security_portal
+    username: oeasy
+    password: oeasy
+#    url: jdbc:mysql://192.168.0.98:3306/db_eomp_office_auto?currentSchema=DataSourceConfig
+#    username: dev_vpn
+#    password: oeasy@1Z
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+  resources:
+      static-locations: classpath:/static/
+  mvc:
+    static-path-pattern: /**
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 10
+    host: 134.175.150.207
+    port: 6379
+
+#es的相关配置
+elasticsearch:
+  servers: localhost:9200  #多个配置以英文逗号隔开如host1:port1,host2:port2,host3:port3
+  schema: http
+  max-connect-total: 30
+  max-connect-route: 10
+  connect-timeout: 30000
+  sock-timeout: 30000
+  connect-request-timeout: 30000
+
+
+
+
