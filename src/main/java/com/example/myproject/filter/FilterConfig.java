@@ -2,12 +2,18 @@ package com.example.myproject.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "myFilter",value = "/*")
+@Component
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class FilterConfig implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilterConfig.class);
@@ -19,10 +25,13 @@ public class FilterConfig implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        //处理 不过滤业务
 
 
-
-        filterChain.doFilter(servletRequest,servletResponse);
+        //放行
+        filterChain.doFilter(request,response);
     }
 
     @Override
