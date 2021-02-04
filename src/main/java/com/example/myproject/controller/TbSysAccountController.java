@@ -9,9 +9,8 @@ import com.example.myproject.entity.TbSysAccount;
 import com.example.myproject.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,8 +39,8 @@ public class TbSysAccountController extends BaseController{
     }
 
 
-    @RequestMapping(value = "/login")
-    public Object login(TbSysAccount account, @NotBlank String verificationcode, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception  {
+    @GetMapping(value = "/login")
+    public Object login(TbSysAccount accounts, @NotBlank String verificationcode, HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception  {
         try {
             System.out.println("fetchRSAPublicKey sessionId = "+session.getId());
             session = reGenerateSessionId(session, request);//重置SessionId
@@ -50,12 +49,12 @@ public class TbSysAccountController extends BaseController{
             if (session_verificationcode != null && !session_verificationcode.toLowerCase().equals(verificationcode.toLowerCase())) {
                 return returnFail("验证码错误", "3");
             }
-            if (StringUtils.isBlank(account.getPassword()) || StringUtils.isBlank(account.getAccount())) {
-                return returnFail("用户名或密码不匹配", "-1");
+            if (StringUtils.isBlank(accounts.getPassword()) || StringUtils.isBlank(accounts.getAccount())) {
+                return returnFail("用户名或密码不能为空", "-1");
             }
             session.removeAttribute(AppCommonConst.VERIFICATIONCODE_KEY);//验证成功删除验证码
             if(true){
-                
+
             }
             RSAPrivateKey privateKey = (RSAPrivateKey) session.getAttribute(AppCommonConst.PRIVATEKEY_SESSIONKEY_LOGIN);
             if (privateKey == null) {
@@ -63,8 +62,8 @@ public class TbSysAccountController extends BaseController{
             }
 
             Jedis jedis = JedisUtil.getJedis(); //redis操作对象
-            String loginErrorCoutKey = account.getAccount() + DateUtil.getCurrentDay() + "_loginErrorCount";
-            String loginErrorTimeKey = account.getAccount() + DateUtil.getCurrentDay() + "_loginErrorTime";
+            String loginErrorCoutKey = accounts.getAccount() + DateUtil.getCurrentDay() + "_loginErrorCount";
+            String loginErrorTimeKey = accounts.getAccount() + DateUtil.getCurrentDay() + "_loginErrorTime";
             //加上同步锁，防止同一个秘钥两次登录的情况
             synchronized (privateKey) {
                 session.removeAttribute(AppCommonConst.PRIVATEKEY_SESSIONKEY_LOGIN);//删除session中的私钥
@@ -73,10 +72,10 @@ public class TbSysAccountController extends BaseController{
                 if (StringUtils.isNotBlank(loginErrorTime)) {
                     return returnFail("您的账号已被锁定5分钟，请稍后登录", "-1");
                 }
-                String decryptPassword = RSAUtils.decryptByPrivateKey(account.getPassword(), privateKey);
+                String decryptPassword = RSAUtils.decryptByPrivateKey(accounts.getPassword(), privateKey);
                 // 前台解密后的密码为倒叙的
                 // decryptPassword = new StringBuffer(decryptPassword).reverse().toString();
-                account.setPassword(MD5Util.md5(decryptPassword));
+                accounts.setPassword(MD5Util.md5(decryptPassword));
                 TbSysAccount loginAccount =  null ;//accountService.login(account, request);
                 if (loginAccount == null) {
                     //判断一天内登录错误次数

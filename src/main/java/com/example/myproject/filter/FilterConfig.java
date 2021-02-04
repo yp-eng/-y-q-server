@@ -25,11 +25,13 @@ public class FilterConfig implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        LOGGER.info("=================进入==================");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //处理 不过滤业务
-
-
+//        if(){
+//
+//        }
         //放行
         filterChain.doFilter(request,response);
     }

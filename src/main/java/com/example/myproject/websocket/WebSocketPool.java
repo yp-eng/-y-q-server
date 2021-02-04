@@ -1,12 +1,16 @@
 package com.example.myproject.websocket;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.websocket.Session;
 import java.io.IOException;
-import java.util.HashMap;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
@@ -126,9 +130,62 @@ public class WebSocketPool {
             log.info("kill websocket终端，token=" + token + ",msg=fail");
         }
     }
-    
+    public  static int   count = 2;
+
     public static void main(String[] args) {
-        WebSocketPool.getInstance().addConn("TOKEN:21232f297a57a5a743894a0e4a801fc3",new WebSocketEndpoint());
-        WebSocketPool.getInstance().sendMessage("TOKEN:21232f297a57a5a743894a0e4a801fc3","");
+//        WebSocketPool.getInstance().addConn("TOKEN:21232f297a57a5a743894a0e4a801fc3",new WebSocketEndpoint());
+//        WebSocketPool.getInstance().sendMessage("TOKEN:21232f297a57a5a743894a0e4a801fc3","");
+//        ReadWriteLock lock = new ReentrantReadWriteLock(false);
+//
+//        Thread threadA = new Thread("threadA"){
+//            @Override
+//            public void run() {
+//                //获取读锁
+//                lock.readLock().lock();
+//                System.out.println("成功获取读锁，count的值是："+count);
+//                if(count<10){
+//                    lock.readLock().unlock();
+//                    //在获取写锁前，必须先释放读锁
+//                    lock.writeLock().lock();
+//                    System.out.println("成功获取写锁");
+//                    count += count*3;
+//
+//                    //获取读锁，此时没有释放写锁，即为写锁降级为读锁
+//                    lock.readLock().lock();
+//                    //成功获取读锁，写锁降级成功，释放写锁
+//                    lock.writeLock().unlock();
+//                    System.out.println("写锁成功降级成读锁，count的值是："+count);
+//                }
+//            }
+//        };
+//        threadA.start();
+//
+//        int dayYear = LocalDate.now().lengthOfYear();
+//
+//
+//
+//        BigDecimal s = new BigDecimal(4.0);
+//
+//        BigDecimal ss = new BigDecimal(4.0);
+//        System.out.println(s.compareTo(ss));
+//
+//        String str = "a,b,c,,";
+//        String[] ary = str.split(",");
+//        // 预期大于 3，结果是 3
+//        System.out.println(ary.length);
+//        System.out.println(JSON.toJSONString(ary));
+
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String item = iterator.next();
+            if ("1".equals(item)) {
+                iterator.remove();
+            }
+        }
+        System.out.println(JSON.toJSONString(list));
+
     }
 }

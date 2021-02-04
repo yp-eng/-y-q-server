@@ -75,14 +75,15 @@ public class CodeGeneration {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setDriverName("org.postgresql.Driver");
-        dsc.setUsername("oeasy");
-        dsc.setPassword("oeasy");
-        dsc.setDbType(DbType.POSTGRE_SQL);
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setUsername("dev_vpn");
+        dsc.setPassword("oeasy@1Z");
+        dsc.setDbType(DbType.MYSQL);
         //jdbc:postgresql://192.168.0.64:5432/db_oeasy?currentSchema=db_security_portal
         //jdbc:mysql://192.168.0.98:3306/db_eomp_office_auto?currentSchema=DataSourceConfig
-        dsc.setUrl("jdbc:postgresql://192.168.0.64:5432/db_oeasy?currentSchema=db_security_portal");
-        dsc.setSchemaName("db_security_portal");//db_eomp_office_auto
+        //dsc.setUrl("jdbc:postgresql://192.168.0.64:5432/db_oeasy?currentSchema=db_security_portal");
+        dsc.setUrl("jdbc:mysql://192.168.0.98:3306/db_eomp_office_auto?currentSchema=DataSourceConfig");
+        dsc.setSchemaName("db_eomp_office_auto");//db_eomp_office_auto
         mpg.setDataSource(dsc);
         // 包配置
         final PackageConfig pc = new PackageConfig();
