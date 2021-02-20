@@ -20,6 +20,12 @@ spring:
     database: 10
     host: localhost
     port: 6379
+  #kafka 配置
+  kafka:
+    bootstrap.servers: localhost:9092
+
+
+
 
 #es的相关配置
 elasticsearch:
@@ -30,6 +36,7 @@ elasticsearch:
   connect-timeout: 30000
   sock-timeout: 30000
   connect-request-timeout: 30000
+
 
 
 

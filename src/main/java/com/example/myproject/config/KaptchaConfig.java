@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * @author: yp
  * @time: 2020/12/8 14:48
- * @description:
+ * @description: 验证码配置
  */
 @Component
 public class KaptchaConfig {
