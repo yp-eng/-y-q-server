@@ -20,6 +20,32 @@ spring:
     database: 10
     host: localhost
     port: 6379
+  #kafka 配置
+kafka:
+    bootstrap.servers: localhost:9092
+    producer:
+      batch-size: 16384 #批处理发消息时数据到达多少字节
+      linger.ms: 100        #批处理发送消息多少毫秒处理一次
+      max.request.size: 20480 #批处理每次请求的最大字节数
+    consumer:
+      enable-auto-commit: true  #自动提供offset
+      auto-commit-interval-ms: 1000 #自动提交间隙(毫秒)
+      group-id: datacenter-collect  #消费者组
+      auto-offset-reset: earliest #从最新的地方开始消费 latest earliest none
+      max-poll-records: 100 #批量消费时最多获取的记录数
+      concurrency: 10 #并发数
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    stream:
+      threads: 1
+      replication-factor: 1
+auth:
+  enable: false #是否启用注册校验机制，true=启用/false=不启用，启用后客户端需要先通过注册接口注册成功之后才能调用该服务其他业务接口
+
+
+
+
+
 
 #es的相关配置
 elasticsearch:
@@ -30,6 +56,7 @@ elasticsearch:
   connect-timeout: 30000
   sock-timeout: 30000
   connect-request-timeout: 30000
+
 
 
 

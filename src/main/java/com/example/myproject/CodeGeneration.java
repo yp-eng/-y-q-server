@@ -65,6 +65,7 @@ public class CodeGeneration {
         gc.setDateType(ONLY_DATE);
         gc.setAuthor("yp");// 作者sys_holiday_detailinv_busi
 
+
         // 自定义文件命名，注意 %s 会自动填充表实体属性！
 //        gc.setControllerName("%sAction");
 //        gc.setServiceName("%sService");
